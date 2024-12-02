@@ -1,0 +1,422 @@
+import java.awt.*;
+
+import java.util.HashMap;
+
+import javax.swing.*;
+
+public class ParcelTrackingSystem {
+
+ HashMap<String, String[]> parcelDatabase; // Using an array to store Location and Status
+
+ String adminPassword = "admin123"; // Predefined admin password for simplicity
+
+ public ParcelTrackingSystem() {
+
+ parcelDatabase = new HashMap<>(); // Initialize the dynamic database
+
+ createLoginWindow();
+
+ }
+
+ // Login Window to choose Admin or Customer
+
+ void createLoginWindow() {
+
+ JFrame loginFrame = new JFrame("Parcel Tracking System - Login");
+
+ loginFrame.setLayout(new GridBagLayout());
+
+ loginFrame.setSize(400, 200);
+
+ loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+ JLabel lblTitle = new JLabel("Parcel Tracking System");
+
+ lblTitle.setFont(new Font("Arial", Font.BOLD, 18));
+
+ JButton btnAdmin = new JButton("Login as Admin");
+
+ JButton btnCustomer = new JButton("Login as Customer");
+
+ GridBagConstraints gbc = new GridBagConstraints();
+
+ gbc.insets = new Insets(10, 10, 10, 10);
+
+ gbc.gridx = 0;
+
+ gbc.gridy = 0;
+
+ loginFrame.add(lblTitle, gbc);
+gbc.gridy = 1;
+
+ loginFrame.add(btnAdmin, gbc);
+
+ gbc.gridy = 2;
+
+ loginFrame.add(btnCustomer, gbc);
+
+ btnAdmin.addActionListener(e -> createAdminLoginWindow());
+
+ btnCustomer.addActionListener(e -> createCustomerWindow());
+
+ loginFrame.setVisible(true);
+
+ }
+
+ // Admin Login Window
+
+ void createAdminLoginWindow() {
+
+ JFrame adminLoginFrame = new JFrame("Admin Login");
+
+ adminLoginFrame.setLayout(new GridBagLayout());
+
+ adminLoginFrame.setSize(400, 200);
+
+ adminLoginFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+ JLabel lblPassword = new JLabel("Enter Admin Password:");
+
+ JPasswordField txtPassword = new JPasswordField(15);
+
+ JButton btnLogin = new JButton("Login");
+
+ JTextArea txtAreaOutput = new JTextArea(2, 20);
+
+ txtAreaOutput.setEditable(false);
+
+ GridBagConstraints gbc = new GridBagConstraints();
+
+ gbc.insets = new Insets(10, 10, 10, 10);
+
+ gbc.gridx = 0;
+
+ gbc.gridy = 0;
+
+ adminLoginFrame.add(lblPassword, gbc);
+
+ gbc.gridx = 1;
+
+ adminLoginFrame.add(txtPassword, gbc);
+gbc.gridy = 1;
+
+ gbc.gridx = 0;
+
+ gbc.gridwidth = 2;
+
+ adminLoginFrame.add(btnLogin, gbc);
+
+ gbc.gridy = 2;
+
+ adminLoginFrame.add(txtAreaOutput, gbc);
+
+ btnLogin.addActionListener(e -> {
+
+ String enteredPassword = new String(txtPassword.getPassword());
+
+ if (enteredPassword.equals(adminPassword)) {
+
+ adminLoginFrame.dispose();
+
+ createAdminWindow();
+
+ } else {
+
+ txtAreaOutput.setText("Error: Incorrect password!");
+
+ }
+
+ });
+
+ adminLoginFrame.setVisible(true);
+
+ }
+
+ // Admin Main Window
+
+ void createAdminWindow() {
+
+ JFrame adminFrame = new JFrame("Admin Dashboard");
+
+ adminFrame.setLayout(new GridBagLayout());
+
+ adminFrame.setSize(400, 200);
+
+ adminFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+ JLabel lblTitle = new JLabel("Admin Dashboard");
+
+ lblTitle.setFont(new Font("Arial", Font.BOLD, 18));
+
+ JButton btnUpdateParcel = new JButton("Update Parcel Status");
+
+ GridBagConstraints gbc = new GridBagConstraints();
+gbc.insets = new Insets(10, 10, 10, 10);
+
+ gbc.gridx = 0;
+
+ gbc.gridy = 0;
+
+ adminFrame.add(lblTitle, gbc);
+
+ gbc.gridy = 1;
+
+ adminFrame.add(btnUpdateParcel, gbc);
+
+ btnUpdateParcel.addActionListener(e -> createRegisterWindow());
+
+ adminFrame.setVisible(true);
+
+ }
+
+ // Customer Main Window
+
+ void createCustomerWindow() {
+
+ JFrame customerFrame = new JFrame("Customer Dashboard");
+
+ customerFrame.setLayout(new GridBagLayout());
+
+ customerFrame.setSize(400, 200);
+
+ customerFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+ JLabel lblTitle = new JLabel("Customer Dashboard");
+
+ lblTitle.setFont(new Font("Arial", Font.BOLD, 18));
+
+ JButton btnTrackParcel = new JButton("Track Parcel");
+
+ GridBagConstraints gbc = new GridBagConstraints();
+
+ gbc.insets = new Insets(10, 10, 10, 10);
+
+ gbc.gridx = 0;
+
+ gbc.gridy = 0;
+
+ customerFrame.add(lblTitle, gbc);
+
+ gbc.gridy = 1;
+
+ customerFrame.add(btnTrackParcel, gbc);
+
+ btnTrackParcel.addActionListener(e -> createTrackWindow());
+customerFrame.setVisible(true);
+
+ }
+
+ // Register Parcel Window (Admin functionality)
+
+ void createRegisterWindow() {
+
+ JFrame registerFrame = new JFrame("Update Parcel");
+
+ registerFrame.setLayout(new GridBagLayout());
+
+ registerFrame.setSize(400, 300);
+
+ registerFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+ JLabel lblTitle = new JLabel("Update a Parcel");
+
+ lblTitle.setFont(new Font("Arial", Font.BOLD, 16));
+
+ JLabel lblTrackingID = new JLabel("Tracking ID:");
+
+ JLabel lblLocation = new JLabel("Location:");
+
+ JLabel lblStatus = new JLabel("Status:");
+
+ JTextField txtTrackingID = new JTextField(15);
+
+ JTextField txtLocation = new JTextField(15);
+
+ JTextField txtStatus = new JTextField(15);
+
+ JButton btnRegister = new JButton("Update");
+
+ JTextArea txtAreaOutput = new JTextArea(5, 20);
+
+ txtAreaOutput.setEditable(false);
+
+ JScrollPane scrollPane = new JScrollPane(txtAreaOutput);
+
+ GridBagConstraints gbc = new GridBagConstraints();
+
+ gbc.insets = new Insets(10, 10, 10, 10);
+
+ gbc.gridx = 0;
+
+ gbc.gridy = 0;
+
+ gbc.gridwidth = 2;
+
+ registerFrame.add(lblTitle, gbc);
+
+ gbc.gridwidth = 1;
+
+ gbc.gridy = 1;
+gbc.gridx = 0;
+
+ registerFrame.add(lblTrackingID, gbc);
+
+ gbc.gridx = 1;
+
+ registerFrame.add(txtTrackingID, gbc);
+
+ gbc.gridy = 2;
+
+ gbc.gridx = 0;
+
+ registerFrame.add(lblLocation, gbc);
+
+ gbc.gridx = 1;
+
+ registerFrame.add(txtLocation, gbc);
+
+ gbc.gridy = 3;
+
+ gbc.gridx = 0;
+
+ registerFrame.add(lblStatus, gbc);
+
+ gbc.gridx = 1;
+
+ registerFrame.add(txtStatus, gbc);
+
+ gbc.gridy = 4;
+
+ gbc.gridx = 0;
+
+ gbc.gridwidth = 2;
+
+ registerFrame.add(btnRegister, gbc);
+
+ gbc.gridy = 5;
+
+ registerFrame.add(scrollPane, gbc);
+
+ btnRegister.addActionListener(e -> {
+
+ String trackingID = txtTrackingID.getText().trim();
+
+ String location = txtLocation.getText().trim();
+
+ String status = txtStatus.getText().trim();
+
+ if (trackingID.isEmpty() || location.isEmpty() || status.isEmpty()) {
+
+ txtAreaOutput.setText("Error: All fields must be filled out!");
+
+ } else {
+
+ parcelDatabase.put(trackingID, new String[]{location, status});
+
+ txtAreaOutput.setText("Parcel updated successfully!\nTracking ID: " + trackingID);
+}
+
+ });
+
+ registerFrame.setVisible(true);
+
+ }
+
+ // Track Parcel Window (Customer functionality)
+
+ void createTrackWindow() {
+
+ JFrame trackFrame = new JFrame("Track Parcel");
+
+ trackFrame.setLayout(new GridBagLayout());
+
+ trackFrame.setSize(400, 300);
+
+ trackFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+ JLabel lblTitle = new JLabel("Track a Parcel");
+
+ lblTitle.setFont(new Font("Arial", Font.BOLD, 16));
+
+ JLabel lblTrackingID = new JLabel("Tracking ID:");
+
+ JTextField txtTrackingID = new JTextField(15);
+
+ JButton btnTrack = new JButton("Track");
+
+ JTextArea txtAreaOutput = new JTextArea(5, 20);
+
+ txtAreaOutput.setEditable(false);
+
+ JScrollPane scrollPane = new JScrollPane(txtAreaOutput);
+
+ GridBagConstraints gbc = new GridBagConstraints();
+
+ gbc.insets = new Insets(10, 10, 10, 10);
+
+ gbc.gridx = 0;
+
+ gbc.gridy = 0;
+
+ gbc.gridwidth = 2;
+
+ trackFrame.add(lblTitle, gbc);
+
+ gbc.gridwidth = 1;
+
+ gbc.gridy = 1;
+
+ gbc.gridx = 0;
+
+ trackFrame.add(lblTrackingID, gbc);
+gbc.gridx = 1;
+
+ trackFrame.add(txtTrackingID, gbc);
+
+ gbc.gridy = 2;
+
+ gbc.gridx = 0;
+
+ gbc.gridwidth = 2;
+
+ trackFrame.add(btnTrack, gbc);
+
+ gbc.gridy = 3;
+
+ trackFrame.add(scrollPane, gbc);
+
+ btnTrack.addActionListener(e -> {
+
+ String trackingID = txtTrackingID.getText().trim();
+
+ if (trackingID.isEmpty()) {
+
+ txtAreaOutput.setText("Error: Please enter a Tracking ID.");
+
+ } else if (parcelDatabase.containsKey(trackingID)) {
+
+ String[] details = parcelDatabase.get(trackingID);
+
+ txtAreaOutput.setText("Tracking ID: " + trackingID + "\nLocation: " + details[0] + 
+
+"\nStatus: " + details[1]);
+
+ } else {
+
+ txtAreaOutput.setText("Error: Tracking ID not found!");
+
+ }
+
+ });
+
+ trackFrame.setVisible(true);
+
+ }
+
+ public static void main(String[] args) {
+
+ new ParcelTrackingSystem();
+
+ }
+
+}
